@@ -3,7 +3,7 @@ use Project;
 CREATE TABLE Users
 (
     [UserId] BIGINT PRIMARY KEY IDENTITY (1,1),
-    [Username] VARCHAR(20) NOT NULL ,
+    [Username] VARCHAR(20) UNIQUE NOT NULL ,
     [Password] VARCHAR(20) NOT NULL ,
     [Height] TINYINT,
     [Weight] TINYINT,
