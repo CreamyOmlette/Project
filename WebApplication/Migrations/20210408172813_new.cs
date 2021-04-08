@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApplication.Migrations
 {
-    public partial class TablePerHierarchy : Migration
+    public partial class @new : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,7 +30,7 @@ namespace WebApplication.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Calories = table.Column<int>(type: "int", nullable: false),
                     Carbohydrates = table.Column<int>(type: "int", nullable: false),
                     Fats = table.Column<int>(type: "int", nullable: false),
@@ -48,7 +48,7 @@ namespace WebApplication.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -62,14 +62,9 @@ namespace WebApplication.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Difficulty = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Duration = table.Column<TimeSpan>(type: "time", nullable: true),
-                    Intensity = table.Column<int>(type: "int", nullable: true),
-                    Reps = table.Column<int>(type: "int", nullable: true),
-                    Sets = table.Column<int>(type: "int", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -82,12 +77,12 @@ namespace WebApplication.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Height = table.Column<int>(type: "int", nullable: true),
                     Weight = table.Column<int>(type: "int", nullable: true),
                     DoB = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Version = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,6 +114,25 @@ namespace WebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CardioRoutines",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Intensity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CardioRoutines", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CardioRoutines_Routines_Id",
+                        column: x => x.Id,
+                        principalTable: "Routines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ExerciseRoutine",
                 columns: table => new
                 {
@@ -143,18 +157,36 @@ namespace WebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Days",
+                name: "GymRoutines",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    Reps = table.Column<int>(type: "int", nullable: false),
+                    Sets = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Days", x => x.Id);
+                    table.PrimaryKey("PK_GymRoutines", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GymRoutines_Routines_Id",
+                        column: x => x.Id,
+                        principalTable: "Routines",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Days",
+                columns: table => new
+                {
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Days", x => new { x.UserId, x.Date });
                     table.ForeignKey(
                         name: "FK_Days_Users_UserId",
                         column: x => x.UserId,
@@ -167,17 +199,18 @@ namespace WebApplication.Migrations
                 name: "DayMeal",
                 columns: table => new
                 {
-                    DaysId = table.Column<int>(type: "int", nullable: false),
-                    MealsId = table.Column<int>(type: "int", nullable: false)
+                    MealsId = table.Column<int>(type: "int", nullable: false),
+                    DaysUserId = table.Column<int>(type: "int", nullable: false),
+                    DaysDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DayMeal", x => new { x.DaysId, x.MealsId });
+                    table.PrimaryKey("PK_DayMeal", x => new { x.MealsId, x.DaysUserId, x.DaysDate });
                     table.ForeignKey(
-                        name: "FK_DayMeal_Days_DaysId",
-                        column: x => x.DaysId,
+                        name: "FK_DayMeal_Days_DaysUserId_DaysDate",
+                        columns: x => new { x.DaysUserId, x.DaysDate },
                         principalTable: "Days",
-                        principalColumn: "Id",
+                        principalColumns: new[] { "UserId", "Date" },
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DayMeal_Meals_MealsId",
@@ -191,17 +224,18 @@ namespace WebApplication.Migrations
                 name: "DayRoutine",
                 columns: table => new
                 {
-                    DaysId = table.Column<int>(type: "int", nullable: false),
-                    RoutinesId = table.Column<int>(type: "int", nullable: false)
+                    RoutinesId = table.Column<int>(type: "int", nullable: false),
+                    DaysUserId = table.Column<int>(type: "int", nullable: false),
+                    DaysDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DayRoutine", x => new { x.DaysId, x.RoutinesId });
+                    table.PrimaryKey("PK_DayRoutine", x => new { x.RoutinesId, x.DaysUserId, x.DaysDate });
                     table.ForeignKey(
-                        name: "FK_DayRoutine_Days_DaysId",
-                        column: x => x.DaysId,
+                        name: "FK_DayRoutine_Days_DaysUserId_DaysDate",
+                        columns: x => new { x.DaysUserId, x.DaysDate },
                         principalTable: "Days",
-                        principalColumn: "Id",
+                        principalColumns: new[] { "UserId", "Date" },
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DayRoutine_Routines_RoutinesId",
@@ -212,19 +246,14 @@ namespace WebApplication.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DayMeal_MealsId",
+                name: "IX_DayMeal_DaysUserId_DaysDate",
                 table: "DayMeal",
-                column: "MealsId");
+                columns: new[] { "DaysUserId", "DaysDate" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DayRoutine_RoutinesId",
+                name: "IX_DayRoutine_DaysUserId_DaysDate",
                 table: "DayRoutine",
-                column: "RoutinesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Days_UserId",
-                table: "Days",
-                column: "UserId");
+                columns: new[] { "DaysUserId", "DaysDate" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExerciseMuscle_MusclesId",
@@ -235,10 +264,20 @@ namespace WebApplication.Migrations
                 name: "IX_ExerciseRoutine_RoutinesId",
                 table: "ExerciseRoutine",
                 column: "RoutinesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Username",
+                table: "Users",
+                column: "Username",
+                unique: true,
+                filter: "[Username] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CardioRoutines");
+
             migrationBuilder.DropTable(
                 name: "DayMeal");
 
@@ -250,6 +289,9 @@ namespace WebApplication.Migrations
 
             migrationBuilder.DropTable(
                 name: "ExerciseRoutine");
+
+            migrationBuilder.DropTable(
+                name: "GymRoutines");
 
             migrationBuilder.DropTable(
                 name: "Meals");

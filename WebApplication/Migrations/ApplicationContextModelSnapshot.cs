@@ -21,53 +21,55 @@ namespace WebApplication.Migrations
 
             modelBuilder.Entity("DayMeal", b =>
                 {
-                    b.Property<int>("DaysId")
-                        .HasColumnType("int");
-
                     b.Property<int>("MealsId")
                         .HasColumnType("int");
 
-                    b.HasKey("DaysId", "MealsId");
+                    b.Property<int>("DaysUserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("MealsId");
+                    b.Property<DateTime>("DaysDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("MealsId", "DaysUserId", "DaysDate");
+
+                    b.HasIndex("DaysUserId", "DaysDate");
 
                     b.ToTable("DayMeal");
                 });
 
             modelBuilder.Entity("DayRoutine", b =>
                 {
-                    b.Property<int>("DaysId")
-                        .HasColumnType("int");
-
                     b.Property<int>("RoutinesId")
                         .HasColumnType("int");
 
-                    b.HasKey("DaysId", "RoutinesId");
+                    b.Property<int>("DaysUserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("RoutinesId");
+                    b.Property<DateTime>("DaysDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("RoutinesId", "DaysUserId", "DaysDate");
+
+                    b.HasIndex("DaysUserId", "DaysDate");
 
                     b.ToTable("DayRoutine");
                 });
 
             modelBuilder.Entity("Domain.Entities.Day", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
+                    b.HasKey("UserId", "Date");
 
                     b.ToTable("Days");
                 });
@@ -119,6 +121,7 @@ namespace WebApplication.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Proteins")
@@ -140,6 +143,7 @@ namespace WebApplication.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -161,6 +165,7 @@ namespace WebApplication.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -184,16 +189,24 @@ namespace WebApplication.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
-                    b.Property<byte[]>("Version")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("Username")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int?>("Weight")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Username")
+                        .IsUnique()
+                        .HasFilter("[Username] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
@@ -256,30 +269,30 @@ namespace WebApplication.Migrations
 
             modelBuilder.Entity("DayMeal", b =>
                 {
-                    b.HasOne("Domain.Entities.Day", null)
-                        .WithMany()
-                        .HasForeignKey("DaysId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Meal", null)
                         .WithMany()
                         .HasForeignKey("MealsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Day", null)
+                        .WithMany()
+                        .HasForeignKey("DaysUserId", "DaysDate")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("DayRoutine", b =>
                 {
-                    b.HasOne("Domain.Entities.Day", null)
-                        .WithMany()
-                        .HasForeignKey("DaysId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Routine", null)
                         .WithMany()
                         .HasForeignKey("RoutinesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Day", null)
+                        .WithMany()
+                        .HasForeignKey("DaysUserId", "DaysDate")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

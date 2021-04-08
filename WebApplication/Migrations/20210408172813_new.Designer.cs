@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210408094620_TablePerHierarchy")]
-    partial class TablePerHierarchy
+    [Migration("20210408172813_new")]
+    partial class @new
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -123,6 +123,7 @@ namespace WebApplication.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Proteins")
@@ -144,6 +145,7 @@ namespace WebApplication.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -165,6 +167,7 @@ namespace WebApplication.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -177,8 +180,6 @@ namespace WebApplication.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("DoB")
@@ -190,13 +191,15 @@ namespace WebApplication.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Username")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<byte[]>("Version")
+                    b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
+                        .IsRequired()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
+
+                    b.Property<string>("Username")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<int?>("Weight")
                         .HasColumnType("int");
@@ -250,7 +253,7 @@ namespace WebApplication.Migrations
                     b.Property<int>("Intensity")
                         .HasColumnType("int");
 
-                    b.ToTable("CardioRoutine");
+                    b.ToTable("CardioRoutines");
                 });
 
             modelBuilder.Entity("Domain.Entities.GymRoutine", b =>
@@ -263,7 +266,7 @@ namespace WebApplication.Migrations
                     b.Property<int>("Sets")
                         .HasColumnType("int");
 
-                    b.ToTable("GymRoutine");
+                    b.ToTable("GymRoutines");
                 });
 
             modelBuilder.Entity("DayMeal", b =>
