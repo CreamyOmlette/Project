@@ -21,55 +21,53 @@ namespace WebApplication.Migrations
 
             modelBuilder.Entity("DayMeal", b =>
                 {
+                    b.Property<int>("DaysId")
+                        .HasColumnType("int");
+
                     b.Property<int>("MealsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DaysUserId")
-                        .HasColumnType("int");
+                    b.HasKey("DaysId", "MealsId");
 
-                    b.Property<DateTime>("DaysDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("MealsId", "DaysUserId", "DaysDate");
-
-                    b.HasIndex("DaysUserId", "DaysDate");
+                    b.HasIndex("MealsId");
 
                     b.ToTable("DayMeal");
                 });
 
             modelBuilder.Entity("DayRoutine", b =>
                 {
+                    b.Property<int>("DaysId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoutinesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DaysUserId")
-                        .HasColumnType("int");
+                    b.HasKey("DaysId", "RoutinesId");
 
-                    b.Property<DateTime>("DaysDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("RoutinesId", "DaysUserId", "DaysDate");
-
-                    b.HasIndex("DaysUserId", "DaysDate");
+                    b.HasIndex("RoutinesId");
 
                     b.ToTable("DayRoutine");
                 });
 
             modelBuilder.Entity("Domain.Entities.Day", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId", "Date");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Days");
                 });
@@ -162,18 +160,12 @@ namespace WebApplication.Migrations
                     b.Property<int>("Difficulty")
                         .HasColumnType("int");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Routines");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Routine");
                 });
 
             modelBuilder.Entity("Domain.Entities.User", b =>
@@ -181,8 +173,6 @@ namespace WebApplication.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime?>("DoB")
@@ -195,21 +185,15 @@ namespace WebApplication.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte[]>("Version")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<int?>("Weight")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Username")
-                        .IsUnique()
-                        .HasFilter("[Username] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
@@ -254,7 +238,7 @@ namespace WebApplication.Migrations
                     b.Property<int>("Intensity")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("CardioRoutine");
+                    b.ToTable("CardioRoutines");
                 });
 
             modelBuilder.Entity("Domain.Entities.GymRoutine", b =>
@@ -267,35 +251,35 @@ namespace WebApplication.Migrations
                     b.Property<int>("Sets")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("GymRoutine");
+                    b.ToTable("GymRoutines");
                 });
 
             modelBuilder.Entity("DayMeal", b =>
                 {
-                    b.HasOne("Domain.Entities.Meal", null)
+                    b.HasOne("Domain.Entities.Day", null)
                         .WithMany()
-                        .HasForeignKey("MealsId")
+                        .HasForeignKey("DaysId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Day", null)
+                    b.HasOne("Domain.Entities.Meal", null)
                         .WithMany()
-                        .HasForeignKey("DaysUserId", "DaysDate")
+                        .HasForeignKey("MealsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("DayRoutine", b =>
                 {
-                    b.HasOne("Domain.Entities.Routine", null)
+                    b.HasOne("Domain.Entities.Day", null)
                         .WithMany()
-                        .HasForeignKey("RoutinesId")
+                        .HasForeignKey("DaysId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Day", null)
+                    b.HasOne("Domain.Entities.Routine", null)
                         .WithMany()
-                        .HasForeignKey("DaysUserId", "DaysDate")
+                        .HasForeignKey("RoutinesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -338,6 +322,24 @@ namespace WebApplication.Migrations
                         .WithMany()
                         .HasForeignKey("RoutinesId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.CardioRoutine", b =>
+                {
+                    b.HasOne("Domain.Entities.Routine", null)
+                        .WithOne()
+                        .HasForeignKey("Domain.Entities.CardioRoutine", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.GymRoutine", b =>
+                {
+                    b.HasOne("Domain.Entities.Routine", null)
+                        .WithOne()
+                        .HasForeignKey("Domain.Entities.GymRoutine", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 

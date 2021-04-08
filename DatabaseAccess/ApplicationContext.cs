@@ -16,28 +16,18 @@ namespace DatabaseAccess
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Day>()
-                .HasKey(e => new { e.UserId, e.Date });
-            modelBuilder.Entity<User>()
-                .HasIndex(e => e.Username)
-                .IsUnique();
-            modelBuilder.Entity<User>()
-                .Property(e => e.Id)
-                .UseIdentityColumn(1, 1);
-            modelBuilder.Entity<User>()
-                .Property(e => e.Version)
-                .IsRowVersion();
-           // modelBuilder.Entity<CardioRoutine>()
-                //.ToTable("CardioRoutines");
-           // modelBuilder.Entity<GymRoutine>()
-                //.ToTable("GymRoutines");
+            
+           modelBuilder.Entity<CardioRoutine>()
+                .ToTable("CardioRoutines");
+           modelBuilder.Entity<GymRoutine>()
+                .ToTable("GymRoutines");
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Day> Days { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Routine> Routines { get; set; }
-        public DbSet<CardioRoutine> CardioRoutines { get; set; }
-        public DbSet<GymRoutine> GymRoutines { get; set; }
+        //public DbSet<CardioRoutine> CardioRoutines { get; set; }
+        //public DbSet<GymRoutine> GymRoutines { get; set; }
     }
 }
