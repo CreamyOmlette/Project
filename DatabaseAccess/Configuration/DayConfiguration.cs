@@ -20,6 +20,7 @@ namespace DatabaseAccess
             builder
                 .HasMany(e => e.Meals)
                 .WithMany(e => e.Days);
+            
         }
     }
 }

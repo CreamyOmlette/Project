@@ -8,11 +8,14 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace DatabaseAccess
 {
-    class MealConfiguration : IEntityTypeConfiguration<Meal>
+    class MuscleConfiguration : IEntityTypeConfiguration<Muscle>
     {
-        public void Configure(EntityTypeBuilder<Meal> builder)
+        public void Configure(EntityTypeBuilder<Muscle> builder)
         {
-           
+            builder
+                .Property(e => e.Name)
+                .IsRequired();
         }
     }
 }
+

@@ -4,44 +4,51 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
-namespace WebApplication
+namespace DatabaseAccess
 {
     public class GenericRepository<TEntity> where TEntity : BaseEntity
     {
-        private DbContext _context;
+        private readonly DbContext _context;
+        private readonly DbSet<TEntity> _set;
         public GenericRepository(DbContext context)
         {
+            _set = context.Set<TEntity>();
             _context = context;
         }
         public async Task Create(TEntity entity)
         {
-            await _context.Set<TEntity>().AddAsync(entity);
-            await _context.SaveChangesAsync();
+            await _set.AddAsync(entity);
+            
         }
 
         public async Task Delete(int id)
         {
             var entity = await GetById(id);
-            _context.Set<TEntity>().Remove(entity);
-            await _context.SaveChangesAsync();
+            _set.Remove(entity);
+            
         }
 
-        public IQueryable<TEntity> GetAll()
+        public IEnumerable<TEntity> GetAll()
         {
-            return _context.Set<TEntity>().AsNoTracking();
+            return _set;
         }
 
         public async Task<TEntity> GetById(int id)
         {
-            return  await _context.Set<TEntity>()
-                .AsNoTracking()
+            return  await _set
                 .FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public async Task Update(TEntity entity)
+        public void Update(TEntity entity)
         {
-            _context.Set<TEntity>().Update(entity);
+            _set.Update(entity);
+        }
+
+        public async Task SaveChangesAsync()
+        {
             await _context.SaveChangesAsync();
         }
+        
+        
     }
 }

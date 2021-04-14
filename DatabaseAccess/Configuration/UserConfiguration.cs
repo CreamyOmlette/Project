@@ -14,20 +14,20 @@ namespace DatabaseAccess
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                .Property(e => e.Id)
-                .UseIdentityColumn(1, 1);
+                .HasIndex(e => e.Username)
+                .IsUnique();
             builder
-                 .HasIndex(e => e.Username)
-                 .IsUnique();
-            builder
-                .Property(e => e.Version)
-                .IsRowVersion();
+                .Property(e => e.RowVersion)
+                .IsRequired()
+                .IsRowVersion()
+                .IsConcurrencyToken();
             builder
                 .Property(e => e.Username)
                 .HasMaxLength(20);
             builder
                 .HasMany(e => e.Days)
-                .WithOne(e => e.User);
+                .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId);
         }
     }
 }
