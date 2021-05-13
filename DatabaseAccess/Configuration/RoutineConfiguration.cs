@@ -13,9 +13,6 @@ namespace DatabaseAccess
         public void Configure(EntityTypeBuilder<Routine> builder)
         {
             builder
-                .HasMany(e => e.Exercises)
-                .WithMany(e => e.Routines);
-            builder
                 .Property(e => e.Name)
                 .IsRequired();
         }

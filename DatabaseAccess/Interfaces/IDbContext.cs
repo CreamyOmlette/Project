@@ -1,4 +1,10 @@
-$HEADER$namespace $NAMESPACE$
+using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace DatabaseAccess.Interfaces
 {
-  public class $CLASS$ {$END$}
+    public interface IDbContext
+    {
+
+    }
 }

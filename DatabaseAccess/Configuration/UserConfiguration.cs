@@ -23,11 +23,7 @@ namespace DatabaseAccess
                 .IsConcurrencyToken();
             builder
                 .Property(e => e.Username)
-                .HasMaxLength(20);
-            builder
-                .HasMany(e => e.Days)
-                .WithOne(e => e.User)
-                .HasForeignKey(e => e.UserId);
+                .HasMaxLength(25);
         }
     }
 }

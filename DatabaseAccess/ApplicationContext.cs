@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -9,25 +10,21 @@ namespace DatabaseAccess
 {
     public class ApplicationContext : DbContext
     {
-        
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        public ApplicationContext(DbContextOptions options) : base(options)
         {
-            optionsBuilder.UseSqlServer("Server=localhost;Database=Test;Trusted_Connection=True;", b => b.MigrationsAssembly("WebApplication"));
+            
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            
-           modelBuilder.Entity<CardioRoutine>()
-                .ToTable("CardioRoutines");
-           modelBuilder.Entity<GymRoutine>()
-                .ToTable("GymRoutines");
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
         public DbSet<User> Users { get; set; }
+        
         public DbSet<Day> Days { get; set; }
         public DbSet<Meal> Meals { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Routine> Routines { get; set; }
-        //public DbSet<CardioRoutine> CardioRoutines { get; set; }
-        //public DbSet<GymRoutine> GymRoutines { get; set; }
+        public DbSet<Muscle> Muscles { get; set; }
     }
 }

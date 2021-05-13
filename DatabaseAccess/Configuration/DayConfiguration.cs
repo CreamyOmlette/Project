@@ -13,14 +13,7 @@ namespace DatabaseAccess
         public void Configure(EntityTypeBuilder<Day> builder)
         {
             builder
-                .HasKey(e => new { e.UserId, e.Date });
-            builder
-                .HasMany(e => e.Routines)
-                .WithMany(e => e.Days);
-            builder
-                .HasMany(e => e.Meals)
-                .WithMany(e => e.Days);
-            
+                .HasAlternateKey(e => new { e.UserId, e.Date });
         }
     }
 }

@@ -4,49 +4,56 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
+using DatabaseAccess.Interfaces;
+using DatabaseAccess.Interfaces;
+
 namespace DatabaseAccess
 {
-    public class GenericRepository<TEntity> where TEntity : BaseEntity
+    public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
-        private readonly DbContext _context;
-        private readonly DbSet<TEntity> _set;
+        protected readonly DbContext Context;
+        protected readonly DbSet<TEntity> Set;
         public GenericRepository(DbContext context)
         {
-            _set = context.Set<TEntity>();
-            _context = context;
+            Set = context.Set<TEntity>();
+            Context = context;
         }
-        public async Task Create(TEntity entity)
+        public virtual async Task Create(TEntity entity)
         {
-            await _set.AddAsync(entity);
+            await Set.AddAsync(entity);
             
         }
 
-        public async Task Delete(int id)
+        public virtual async Task Delete(int id)
         {
             var entity = await GetById(id);
-            _set.Remove(entity);
-            
+            Set.Remove(entity);
+        }
+        
+        public virtual async Task Delete(TEntity entity)
+        {
+            await Task.Run(() => Set.Remove(entity));
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAll()
         {
-            return _set;
+             return await Task.Run(() => Set);
         }
 
-        public async Task<TEntity> GetById(int id)
+        public virtual async Task<TEntity> GetById(int id)
         {
-            return  await _set
-                .FirstOrDefaultAsync(obj => obj.Id == id);
+            return  (await Set
+                .FirstOrDefaultAsync(obj => obj.Id == id));
         }
 
-        public void Update(TEntity entity)
+        public virtual async Task Update(TEntity entity)
         {
-            _set.Update(entity);
+            await Task.Run(() => Set.Update(entity));
         }
 
-        public async Task SaveChangesAsync()
+        public virtual async Task SaveChangesAsync()
         {
-            await _context.SaveChangesAsync();
+            await Context.SaveChangesAsync();
         }
         
         
