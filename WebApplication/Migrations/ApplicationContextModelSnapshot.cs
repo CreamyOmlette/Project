@@ -21,55 +21,53 @@ namespace WebApplication.Migrations
 
             modelBuilder.Entity("DayMeal", b =>
                 {
+                    b.Property<int>("DaysId")
+                        .HasColumnType("int");
+
                     b.Property<int>("MealsId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DaysUserId")
-                        .HasColumnType("int");
+                    b.HasKey("DaysId", "MealsId");
 
-                    b.Property<DateTime>("DaysDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("MealsId", "DaysUserId", "DaysDate");
-
-                    b.HasIndex("DaysUserId", "DaysDate");
+                    b.HasIndex("MealsId");
 
                     b.ToTable("DayMeal");
                 });
 
             modelBuilder.Entity("DayRoutine", b =>
                 {
+                    b.Property<int>("DaysId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RoutinesId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DaysUserId")
-                        .HasColumnType("int");
+                    b.HasKey("DaysId", "RoutinesId");
 
-                    b.Property<DateTime>("DaysDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("RoutinesId", "DaysUserId", "DaysDate");
-
-                    b.HasIndex("DaysUserId", "DaysDate");
+                    b.HasIndex("RoutinesId");
 
                     b.ToTable("DayRoutine");
                 });
 
             modelBuilder.Entity("Domain.Entities.Day", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
                     b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId", "Date");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("UserId", "Date");
 
                     b.ToTable("Days");
                 });
@@ -81,19 +79,22 @@ namespace WebApplication.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Intensity")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Reps")
+                    b.Property<int?>("Reps")
                         .HasColumnType("int");
 
-                    b.Property<int>("Sets")
+                    b.Property<int?>("Sets")
                         .HasColumnType("int");
 
-                    b.Property<int>("Time")
+                    b.Property<int?>("Time")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -118,6 +119,12 @@ namespace WebApplication.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Fats")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImgSrc")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Mass")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -148,7 +155,7 @@ namespace WebApplication.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Muscle");
+                    b.ToTable("Muscles");
                 });
 
             modelBuilder.Entity("Domain.Entities.Routine", b =>
@@ -180,10 +187,10 @@ namespace WebApplication.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("DoB")
+                    b.Property<DateTime>("DoB")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("Height")
+                    b.Property<int>("Height")
                         .HasColumnType("int");
 
                     b.Property<string>("Password")
@@ -196,10 +203,10 @@ namespace WebApplication.Migrations
                         .HasColumnType("rowversion");
 
                     b.Property<string>("Username")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
-                    b.Property<int?>("Weight")
+                    b.Property<int>("Weight")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -241,58 +248,32 @@ namespace WebApplication.Migrations
                     b.ToTable("ExerciseRoutine");
                 });
 
-            modelBuilder.Entity("Domain.Entities.CardioRoutine", b =>
-                {
-                    b.HasBaseType("Domain.Entities.Routine");
-
-                    b.Property<TimeSpan>("Duration")
-                        .HasColumnType("time");
-
-                    b.Property<int>("Intensity")
-                        .HasColumnType("int");
-
-                    b.ToTable("CardioRoutines");
-                });
-
-            modelBuilder.Entity("Domain.Entities.GymRoutine", b =>
-                {
-                    b.HasBaseType("Domain.Entities.Routine");
-
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sets")
-                        .HasColumnType("int");
-
-                    b.ToTable("GymRoutines");
-                });
-
             modelBuilder.Entity("DayMeal", b =>
                 {
-                    b.HasOne("Domain.Entities.Meal", null)
+                    b.HasOne("Domain.Entities.Day", null)
                         .WithMany()
-                        .HasForeignKey("MealsId")
+                        .HasForeignKey("DaysId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Day", null)
+                    b.HasOne("Domain.Entities.Meal", null)
                         .WithMany()
-                        .HasForeignKey("DaysUserId", "DaysDate")
+                        .HasForeignKey("MealsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("DayRoutine", b =>
                 {
-                    b.HasOne("Domain.Entities.Routine", null)
+                    b.HasOne("Domain.Entities.Day", null)
                         .WithMany()
-                        .HasForeignKey("RoutinesId")
+                        .HasForeignKey("DaysId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.Day", null)
+                    b.HasOne("Domain.Entities.Routine", null)
                         .WithMany()
-                        .HasForeignKey("DaysUserId", "DaysDate")
+                        .HasForeignKey("RoutinesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -335,24 +316,6 @@ namespace WebApplication.Migrations
                         .WithMany()
                         .HasForeignKey("RoutinesId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.CardioRoutine", b =>
-                {
-                    b.HasOne("Domain.Entities.Routine", null)
-                        .WithOne()
-                        .HasForeignKey("Domain.Entities.CardioRoutine", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Entities.GymRoutine", b =>
-                {
-                    b.HasOne("Domain.Entities.Routine", null)
-                        .WithOne()
-                        .HasForeignKey("Domain.Entities.GymRoutine", "Id")
-                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 

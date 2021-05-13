@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApplication.Migrations
 {
-    public partial class @new : Migration
+    public partial class Inital3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,10 +14,11 @@ namespace WebApplication.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Reps = table.Column<int>(type: "int", nullable: false),
-                    Sets = table.Column<int>(type: "int", nullable: false),
+                    Reps = table.Column<int>(type: "int", nullable: true),
+                    Sets = table.Column<int>(type: "int", nullable: true),
                     Intensity = table.Column<int>(type: "int", nullable: false),
-                    Time = table.Column<int>(type: "int", nullable: false)
+                    Time = table.Column<int>(type: "int", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,7 +36,9 @@ namespace WebApplication.Migrations
                     Carbohydrates = table.Column<int>(type: "int", nullable: false),
                     Fats = table.Column<int>(type: "int", nullable: false),
                     Proteins = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Mass = table.Column<int>(type: "int", nullable: false),
+                    ImgSrc = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -43,7 +46,7 @@ namespace WebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Muscle",
+                name: "Muscles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -53,7 +56,7 @@ namespace WebApplication.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Muscle", x => x.Id);
+                    table.PrimaryKey("PK_Muscles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,11 +80,11 @@ namespace WebApplication.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Username = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Username = table.Column<string>(type: "nvarchar(25)", maxLength: 25, nullable: true),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Height = table.Column<int>(type: "int", nullable: true),
-                    Weight = table.Column<int>(type: "int", nullable: true),
-                    DoB = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Height = table.Column<int>(type: "int", nullable: false),
+                    Weight = table.Column<int>(type: "int", nullable: false),
+                    DoB = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false)
                 },
                 constraints: table =>
@@ -106,30 +109,11 @@ namespace WebApplication.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ExerciseMuscle_Muscle_MusclesId",
+                        name: "FK_ExerciseMuscle_Muscles_MusclesId",
                         column: x => x.MusclesId,
-                        principalTable: "Muscle",
+                        principalTable: "Muscles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CardioRoutines",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Intensity = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CardioRoutines", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CardioRoutines_Routines_Id",
-                        column: x => x.Id,
-                        principalTable: "Routines",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,36 +141,19 @@ namespace WebApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GymRoutines",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Reps = table.Column<int>(type: "int", nullable: false),
-                    Sets = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GymRoutines", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GymRoutines_Routines_Id",
-                        column: x => x.Id,
-                        principalTable: "Routines",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Days",
                 columns: table => new
                 {
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Days", x => new { x.UserId, x.Date });
+                    table.PrimaryKey("PK_Days", x => x.Id);
+                    table.UniqueConstraint("AK_Days_UserId_Date", x => new { x.UserId, x.Date });
                     table.ForeignKey(
                         name: "FK_Days_Users_UserId",
                         column: x => x.UserId,
@@ -199,18 +166,17 @@ namespace WebApplication.Migrations
                 name: "DayMeal",
                 columns: table => new
                 {
-                    MealsId = table.Column<int>(type: "int", nullable: false),
-                    DaysUserId = table.Column<int>(type: "int", nullable: false),
-                    DaysDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DaysId = table.Column<int>(type: "int", nullable: false),
+                    MealsId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DayMeal", x => new { x.MealsId, x.DaysUserId, x.DaysDate });
+                    table.PrimaryKey("PK_DayMeal", x => new { x.DaysId, x.MealsId });
                     table.ForeignKey(
-                        name: "FK_DayMeal_Days_DaysUserId_DaysDate",
-                        columns: x => new { x.DaysUserId, x.DaysDate },
+                        name: "FK_DayMeal_Days_DaysId",
+                        column: x => x.DaysId,
                         principalTable: "Days",
-                        principalColumns: new[] { "UserId", "Date" },
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DayMeal_Meals_MealsId",
@@ -224,18 +190,17 @@ namespace WebApplication.Migrations
                 name: "DayRoutine",
                 columns: table => new
                 {
-                    RoutinesId = table.Column<int>(type: "int", nullable: false),
-                    DaysUserId = table.Column<int>(type: "int", nullable: false),
-                    DaysDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DaysId = table.Column<int>(type: "int", nullable: false),
+                    RoutinesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DayRoutine", x => new { x.RoutinesId, x.DaysUserId, x.DaysDate });
+                    table.PrimaryKey("PK_DayRoutine", x => new { x.DaysId, x.RoutinesId });
                     table.ForeignKey(
-                        name: "FK_DayRoutine_Days_DaysUserId_DaysDate",
-                        columns: x => new { x.DaysUserId, x.DaysDate },
+                        name: "FK_DayRoutine_Days_DaysId",
+                        column: x => x.DaysId,
                         principalTable: "Days",
-                        principalColumns: new[] { "UserId", "Date" },
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DayRoutine_Routines_RoutinesId",
@@ -246,14 +211,14 @@ namespace WebApplication.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DayMeal_DaysUserId_DaysDate",
+                name: "IX_DayMeal_MealsId",
                 table: "DayMeal",
-                columns: new[] { "DaysUserId", "DaysDate" });
+                column: "MealsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DayRoutine_DaysUserId_DaysDate",
+                name: "IX_DayRoutine_RoutinesId",
                 table: "DayRoutine",
-                columns: new[] { "DaysUserId", "DaysDate" });
+                column: "RoutinesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExerciseMuscle_MusclesId",
@@ -276,9 +241,6 @@ namespace WebApplication.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "CardioRoutines");
-
-            migrationBuilder.DropTable(
                 name: "DayMeal");
 
             migrationBuilder.DropTable(
@@ -291,16 +253,13 @@ namespace WebApplication.Migrations
                 name: "ExerciseRoutine");
 
             migrationBuilder.DropTable(
-                name: "GymRoutines");
-
-            migrationBuilder.DropTable(
                 name: "Meals");
 
             migrationBuilder.DropTable(
                 name: "Days");
 
             migrationBuilder.DropTable(
-                name: "Muscle");
+                name: "Muscles");
 
             migrationBuilder.DropTable(
                 name: "Exercises");
