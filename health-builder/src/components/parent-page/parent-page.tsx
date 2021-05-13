@@ -12,8 +12,7 @@ const ParentPage = () => {
                 <Route exact path="/" component={App}/>
                 <Route path="/test" component={SecondPage}/>
             </Switch>     
-            </BrowserRouter> 
-                     
+            </BrowserRouter>                    
         </div>
     )
 };

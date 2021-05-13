@@ -1,35 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\alexe\\source\\repos\\WebApplication\\WebApplication\\WebApplication.csproj": {}
+    "/Users/alexlipceanu/AmdarisProj/WebApplication/WebApplication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\alexe\\source\\repos\\WebApplication\\DatabaseAccess\\DatabaseAccess.csproj": {
+    "/Users/alexlipceanu/AmdarisProj/DatabaseAccess/DatabaseAccess.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alexe\\source\\repos\\WebApplication\\DatabaseAccess\\DatabaseAccess.csproj",
+        "projectUniqueName": "/Users/alexlipceanu/AmdarisProj/DatabaseAccess/DatabaseAccess.csproj",
         "projectName": "DatabaseAccess",
-        "projectPath": "C:\\Users\\alexe\\source\\repos\\WebApplication\\DatabaseAccess\\DatabaseAccess.csproj",
-        "packagesPath": "C:\\Users\\alexe\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alexe\\source\\repos\\WebApplication\\DatabaseAccess\\obj\\",
+        "projectPath": "/Users/alexlipceanu/AmdarisProj/DatabaseAccess/DatabaseAccess.csproj",
+        "packagesPath": "/Users/alexlipceanu/.nuget/packages/",
+        "outputPath": "/Users/alexlipceanu/AmdarisProj/DatabaseAccess/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\alexe\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/alexlipceanu/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\alexe\\source\\repos\\WebApplication\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\alexe\\source\\repos\\WebApplication\\Domain\\Domain.csproj"
+              "/Users/alexlipceanu/AmdarisProj/Domain/Domain.csproj": {
+                "projectPath": "/Users/alexlipceanu/AmdarisProj/Domain/Domain.csproj"
               }
             }
           }
@@ -44,6 +42,10 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[10.1.1, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.5, )"
@@ -68,28 +70,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\alexe\\source\\repos\\WebApplication\\Domain\\Domain.csproj": {
+    "/Users/alexlipceanu/AmdarisProj/Domain/Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alexe\\source\\repos\\WebApplication\\Domain\\Domain.csproj",
+        "projectUniqueName": "/Users/alexlipceanu/AmdarisProj/Domain/Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\alexe\\source\\repos\\WebApplication\\Domain\\Domain.csproj",
-        "packagesPath": "C:\\Users\\alexe\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alexe\\source\\repos\\WebApplication\\Domain\\obj\\",
+        "projectPath": "/Users/alexlipceanu/AmdarisProj/Domain/Domain.csproj",
+        "packagesPath": "/Users/alexlipceanu/.nuget/packages/",
+        "outputPath": "/Users/alexlipceanu/AmdarisProj/Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\alexe\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/alexlipceanu/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -122,36 +122,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\alexe\\source\\repos\\WebApplication\\WebApplication\\WebApplication.csproj": {
+    "/Users/alexlipceanu/AmdarisProj/WebApplication/WebApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\alexe\\source\\repos\\WebApplication\\WebApplication\\WebApplication.csproj",
+        "projectUniqueName": "/Users/alexlipceanu/AmdarisProj/WebApplication/WebApplication.csproj",
         "projectName": "WebApplication",
-        "projectPath": "C:\\Users\\alexe\\source\\repos\\WebApplication\\WebApplication\\WebApplication.csproj",
-        "packagesPath": "C:\\Users\\alexe\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\alexe\\source\\repos\\WebApplication\\WebApplication\\obj\\",
+        "projectPath": "/Users/alexlipceanu/AmdarisProj/WebApplication/WebApplication.csproj",
+        "packagesPath": "/Users/alexlipceanu/.nuget/packages/",
+        "outputPath": "/Users/alexlipceanu/AmdarisProj/WebApplication/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\alexe\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/Users/alexlipceanu/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\alexe\\source\\repos\\WebApplication\\DatabaseAccess\\DatabaseAccess.csproj": {
-                "projectPath": "C:\\Users\\alexe\\source\\repos\\WebApplication\\DatabaseAccess\\DatabaseAccess.csproj"
+              "/Users/alexlipceanu/AmdarisProj/DatabaseAccess/DatabaseAccess.csproj": {
+                "projectPath": "/Users/alexlipceanu/AmdarisProj/DatabaseAccess/DatabaseAccess.csproj"
               }
             }
           }
@@ -166,11 +164,27 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[10.1.1, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.1.1, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[5.0.6, )"
+            },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[5.0.5, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.1, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -195,7 +209,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.201/RuntimeIdentifierGraph.json"
         }
       }
     }

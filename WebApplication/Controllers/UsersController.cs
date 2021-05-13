@@ -3,28 +3,28 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DatabaseAccess;
 using DatabaseAccess.Dtos;
 using DatabaseAccess.Interfaces;
 using Domain.Entities;
+using System.Linq;
+using DatabaseAccess;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    [Route("api/users")]
+    public class UsersController : ControllerBase
     {
         private readonly IGenericRepository<User> _userRepo;
 
-        private readonly ILogger<UserController> _logger;
+        private readonly ILogger<UsersController> _logger;
 
         private readonly IMapper _mapper;
 
-        public UserController(IGenericRepository<User> userRepo, ILogger<UserController> logger, IMapper mapper)
+        public UsersController(IGenericRepository<User> userRepo, ILogger<UsersController> logger, IMapper mapper)
         {
             _userRepo = userRepo;
             _logger = logger;
@@ -32,8 +32,7 @@ namespace WebApplication.Controllers
         }
 
 
-        [HttpPost("users")]
-
+        [HttpPost]
         public async Task<IActionResult> CreateUser(string username, string password, int height, int weight, string dob)
         {
             
@@ -50,15 +49,15 @@ namespace WebApplication.Controllers
             return Ok();
         }
 
-        [HttpGet("users/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
             var user = await _userRepo.GetById(id);
             var result = _mapper.Map<UserDto>(user);
-            return Ok(result);
+            return Ok(user);
         }
 
-        [HttpGet("users")]
+        [HttpGet("")]
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await _userRepo.GetAll();
@@ -66,7 +65,7 @@ namespace WebApplication.Controllers
             return Ok(result);
         }
         
-        [HttpPatch("users/{id}")]
+        [HttpPatch("{id}")]
         public async Task<IActionResult> UpdateUser(int id, string password)
         {
             var user = await _userRepo.GetById(id);
@@ -76,14 +75,12 @@ namespace WebApplication.Controllers
             return Ok();
         }
 
-        [HttpDelete("users/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
              await _userRepo.Delete(id);
              await _userRepo.SaveChangesAsync();
              return Ok();
         }
-        
-        
     }
 }

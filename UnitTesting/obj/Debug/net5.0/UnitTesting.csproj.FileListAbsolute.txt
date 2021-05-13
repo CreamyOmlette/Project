@@ -143,3 +143,5 @@
 /Users/alexlipceanu/AmdarisProj/UnitTesting/obj/Debug/net5.0/ref/UnitTesting.dll
 /Users/alexlipceanu/AmdarisProj/UnitTesting/obj/Debug/net5.0/UnitTesting.pdb
 /Users/alexlipceanu/AmdarisProj/UnitTesting/obj/Debug/net5.0/UnitTesting.genruntimeconfig.cache
+/Users/alexlipceanu/AmdarisProj/UnitTesting/bin/Debug/net5.0/Microsoft.AspNetCore.TestHost.dll
+/Users/alexlipceanu/AmdarisProj/UnitTesting/bin/Debug/net5.0/System.IO.Pipelines.dll

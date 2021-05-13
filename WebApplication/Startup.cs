@@ -12,6 +12,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DatabaseAccess;
+using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using DatabaseAccess.Dtos;
+using DatabaseAccess.Interfaces;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Http;
+
 namespace WebApplication
 {
     public class Startup
@@ -26,7 +34,15 @@ namespace WebApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationContext>();
+            services.AddDbContext<ApplicationContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),  b => b.MigrationsAssembly("WebApplication")));
+            services.AddScoped<DbContext,ApplicationContext>();
+            services.AddScoped<IGenericRepository<User>, GenericRepository<User>>();
+            services.AddScoped<IGenericRepository<Meal>, GenericRepository<Meal>>();
+            services.AddScoped<IGenericRepository<Day>, GenericRepository<Day>>();
+            services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            //Mapping the dtos
+            services.AddAutoMapper(typeof(MappingProfile));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -37,19 +53,13 @@ namespace WebApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication v1"));
-            }
-
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication v1"));
             app.UseHttpsRedirection();
-
+            app.UseStaticFiles();
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
