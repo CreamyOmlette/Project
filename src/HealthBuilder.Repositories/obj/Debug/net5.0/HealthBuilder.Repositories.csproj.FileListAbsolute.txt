@@ -1,0 +1,17 @@
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/bin/Debug/net5.0/HealthBuilder.Repositories.deps.json
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/bin/Debug/net5.0/HealthBuilder.Repositories.dll
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/bin/Debug/net5.0/ref/HealthBuilder.Repositories.dll
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/bin/Debug/net5.0/HealthBuilder.Repositories.pdb
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/bin/Debug/net5.0/HealthBuilder.Domain.dll
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/bin/Debug/net5.0/HealthBuilder.Domain.pdb
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/obj/Debug/net5.0/HealthBuilder.Repositories.csprojAssemblyReference.cache
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/obj/Debug/net5.0/HealthBuilder.Repositories.GeneratedMSBuildEditorConfig.editorconfig
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/obj/Debug/net5.0/HealthBuilder.Repositories.AssemblyInfoInputs.cache
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/obj/Debug/net5.0/HealthBuilder.Repositories.AssemblyInfo.cs
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/obj/Debug/net5.0/HealthBuilder.Repositories.csproj.CoreCompileInputs.cache
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/obj/Debug/net5.0/HealthBuilder.Repositories.csproj.CopyComplete
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/obj/Debug/net5.0/HealthBuilder.Repositories.dll
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/obj/Debug/net5.0/ref/HealthBuilder.Repositories.dll
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/obj/Debug/net5.0/HealthBuilder.Repositories.pdb
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/bin/Debug/net5.0/HealthBuilder.Infrastructure.dll
+/Users/alexlipceanu/Redesign/src/HealthBuilder.Repositories/bin/Debug/net5.0/HealthBuilder.Infrastructure.pdb
